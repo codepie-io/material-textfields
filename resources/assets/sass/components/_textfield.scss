@@ -1,0 +1,200 @@
+@import "../mixins/mixins";
+@import "../variables/variables";
+
+// ==========  Text fields   ========== //
+
+.md-textfield {
+  position: relative;
+  font-size: $textfield-font-size;
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 200px;
+  width: 100%;
+  max-width: 320px;
+  margin: 0;
+  padding: $textfield-vertical-spacing 0;
+  outline: none !important;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+
+  /*element*/
+
+  &__input {
+    border: none;
+    border-bottom: 1px solid $textfield-bottom-border-color;
+    display: block;
+    font-size: $textfield-font-size;
+    font-family: $preferred_font;
+    margin: 0;
+    padding: $textfield-padding 0;
+    width: $textfield-width;
+    background: none;
+    text-align: left;
+    color: $textfield-color;
+
+    &:required + .md-textfield__label::after {
+      margin-left: 1px;
+      content: "*";
+    }
+  }
+
+  &__label {
+    bottom: 0;
+    color: $textfield-label-color;
+    font-size: $textfield-font-size;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    position: absolute;
+    display: block;
+    top: ($textfield-padding + $textfield-vertical-spacing);
+    width: 100%;
+    overflow: hidden;
+    font-family:'Roboto', sans-serif;
+    white-space: nowrap;
+    text-align: left;
+    margin-bottom: 0;
+    font-weight: normal;
+    &::before {
+      background-color: $textfield-highlight-color;
+      bottom: $textfield-vertical-spacing;
+      content: '';
+      height: 2px;
+      left: 45%;
+      position: absolute;
+      @include material-animation-default();
+      visibility: hidden;
+      width: 10px;
+    }
+    .md-textfield--focused &::before {
+      left: 0;
+      visibility: visible;
+      width: 100%;
+    }
+    .md-textfield--invalid &::before {
+      background-color: $textfield-error-color;
+    }
+  }
+
+  &__error {
+    color: $textfield-error-color;
+    position: absolute;
+    font-size: $textfield-floating-label-fontsize;
+    margin-top: 3px;
+    visibility: hidden;
+    display: block;
+
+    .md-textfield--invalid & {
+      visibility: visible;
+    }
+  }
+
+  &__help-text {
+    color: $textfield-helper-color;
+    font-size: $textfield-floating-label-fontsize;
+    margin-top: 3px;
+    visibility: visible;
+    position: absolute;
+    display: block;
+    opacity: 0;
+    will-change: opacity;
+    @include material-animation-linear-out-slow-in();
+    transition-property: opacity;
+
+    .md-textfield--focused  & {
+      opacity: 1;
+    }
+    .md-textfield--invalid & {
+      visibility: hidden;
+    }
+  }
+
+  &__counter {
+    color: $textfield-highlight-color;
+    position: absolute;
+    font-size: $textfield-floating-label-fontsize;
+    margin-top: 3px;
+    visibility: hidden;
+    display: block;
+    right:0;
+
+    .md-textfield--dirty & {
+      visibility: visible;
+    }
+  }
+
+  /*modifier*/
+
+  &--focused {
+    .md-textfield__input:required + .md-textfield__label::after {
+      color: #d50000;
+    }
+    .md-textfield__input {
+      outline: none;
+    }
+  }
+
+  &--invalid {
+    .md-textfield__input {
+      border-color: $textfield-error-color;
+      box-shadow: none;
+    }
+  }
+
+  &--disabled {
+
+    .md-textfield__input{
+      background-color: transparent;
+      border-bottom: 1px dotted $textfield-disabled-color;
+      color: $textfield-disabled-text-color;
+    }
+
+    .md-textfield__label{
+      color: $textfield-disabled-text-color;
+    }
+  }
+
+  &--dirty {
+    .md-textfield__label {
+      visibility: hidden;
+    }
+  }
+
+  &--floating-label {
+    &.md-textfield__label{
+      @include material-animation-default();
+    }
+    &.md-textfield--invalid {
+      .md-textfield__label {
+        color: $textfield-error-color;
+        font-size: $textfield-floating-label-fontsize;
+      }
+    }
+    &.md-textfield--dirty,
+    &.md-textfield--focused{
+      .md-textfield__label{
+        color: $textfield-highlight-color;
+        font-size : $textfield-floating-label-fontsize;
+        top: $textfield-vertical-spacing - ($textfield-floating-label-fontsize + $textfield-padding);
+        visibility: visible;
+      }
+      .md-textfield__expandable-holder {
+        top: -($textfield-floating-label-fontsize + $textfield-padding);
+      }
+    }
+    &.md-textfield--dirty:not(.md-textfield--focused) .md-textfield__label{
+      color: $textfield-label-color;
+    }
+  }
+
+  &--full-width {
+    width: 100%;
+    max-width: none;
+  }
+
+  &--has-placeholder {
+    .md-textfield__label{
+      display: none;
+    }
+  }
+
+}
