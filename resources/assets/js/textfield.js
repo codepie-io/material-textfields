@@ -173,6 +173,17 @@
     };
     MaterialTextfield.prototype['change'] = MaterialTextfield.prototype.change;
 
+    MaterialTextfield.prototype.destroy = function (value) {
+      this.$textfield_.removeClass(this.Classes_.IS_DIRTY).removeClass(this.Classes_.IS_INVALID)
+      tthis.$input_.unbind('input', this.boundUpdateClassesHandler);
+      this.$input_.unbind('focus', this.boundFocusHandler);
+      this.$input_.unbind('blur', this.boundBlurHandler);
+      this.$input_.unbind('reset', this.boundResetHandler);
+      this.$textfield_.data(DATA_KEY, null);
+
+    };
+    MaterialTextfield.prototype['destroy'] = MaterialTextfield.prototype.destroy;
+
     MaterialTextfield.Plugin_ = function Plugin_(config) {
       return this.each(function () {
         let $this = $(this);
