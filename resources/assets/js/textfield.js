@@ -6,7 +6,13 @@
   let EVENT_KEY = DATA_KEY+'.';
 
   let Event = {
-    HIDE: EVENT_KEY+'focus'
+    FOCUS: EVENT_KEY+'focus',
+    BLUR: EVENT_KEY+'blur',
+    CHANGED: EVENT_KEY+'changed',
+    DIRTY: EVENT_KEY+'dirty',
+    VALID: EVENT_KEY+'valid',
+    INVALID: EVENT_KEY+'invalid',
+    RESET: EVENT_KEY+'reset'
   };
 
   let Selector = {
@@ -105,14 +111,17 @@
 
     MaterialTextfield.prototype.onFocus_ = function () {
       this.$textfield_.addClass(this.Classes_.IS_FOCUSED);
+      this.$textfield_.trigger(Event.FOCUS);
     };
 
     MaterialTextfield.prototype.onBlur_ = function () {
       this.$textfield_.removeClass(this.Classes_.IS_FOCUSED);
+      this.$textfield_.trigger(Event.BLUR);
     };
 
     MaterialTextfield.prototype.onReset_ = function () {
       this.updateClasses_();
+      this.$textfield_.trigger(Event.RESET);
     };
 
     MaterialTextfield.prototype.updateClasses_ = function () {
@@ -138,11 +147,15 @@
     };
 
     MaterialTextfield.prototype.checkValidity_ = function () {
+      if(!this.$textfield_.hasClass(this.Classes_.IS_DIRTY))
+          return ;
       if (typeof this.$input_.get(0).validity !== typeof undefined) {
         if (this.$input_.get(0).validity.valid) {
           this.$textfield_.removeClass(this.Classes_.IS_INVALID);
+          this.$textfield_.trigger(Event.VALID);
         } else {
           this.$textfield_.addClass(this.Classes_.IS_INVALID);
+          this.$textfield_.trigger(Event.INVALID);
         }
       }
     };
@@ -150,6 +163,7 @@
     MaterialTextfield.prototype.checkDirty = function () {
       if ((this.$input_.val() != '') && (this.$input_.val().length > 0)) {
         this.$textfield_.addClass(this.Classes_.IS_DIRTY);
+        this.$textfield_.trigger(Event.DIRTY);
       } else {
         this.$textfield_.removeClass(this.Classes_.IS_DIRTY);
       }
@@ -175,12 +189,11 @@
 
     MaterialTextfield.prototype.destroy = function (value) {
       this.$textfield_.removeClass(this.Classes_.IS_DIRTY).removeClass(this.Classes_.IS_INVALID)
-      tthis.$input_.unbind('input', this.boundUpdateClassesHandler);
+      this.$input_.unbind('input', this.boundUpdateClassesHandler);
       this.$input_.unbind('focus', this.boundFocusHandler);
       this.$input_.unbind('blur', this.boundBlurHandler);
       this.$input_.unbind('reset', this.boundResetHandler);
       this.$textfield_.data(DATA_KEY, null);
-
     };
     MaterialTextfield.prototype['destroy'] = MaterialTextfield.prototype.destroy;
 

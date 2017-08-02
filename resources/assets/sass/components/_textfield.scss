@@ -160,7 +160,7 @@
   }
 
   &--floating-label {
-    &.md-textfield__label{
+    .md-textfield__label{
       @include material-animation-default();
     }
     &.md-textfield--invalid {
