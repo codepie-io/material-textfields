@@ -138,7 +138,6 @@
         this.$textfield_.removeClass(this.Classes_.IS_DISABLED);
       }
     };
-    MaterialTextfield.prototype['checkDisabled'] = MaterialTextfield.prototype.checkDisabled;
 
     MaterialTextfield.prototype.checkFocus = function () {
       if (typeof this.$input_.attr('autofocus') !== typeof undefined && this.$input_.attr('autofocus') !== false) {
@@ -173,19 +172,16 @@
       this.$input_.prop( "disabled",true);
       this.updateClasses_();
     };
-    MaterialTextfield.prototype['disable'] = MaterialTextfield.prototype.disable;
 
     MaterialTextfield.prototype.enable = function () {
       this.$input_.prop( "disabled",false);
       this.updateClasses_();
     };
-    MaterialTextfield.prototype['enable'] = MaterialTextfield.prototype.enable;
 
-    MaterialTextfield.prototype.change = function (value) {
-      this.$input_.val(value || '');
+    MaterialTextfield.prototype.clear = function () {
+      this.$input_.val('');
       this.updateClasses_();
     };
-    MaterialTextfield.prototype['change'] = MaterialTextfield.prototype.change;
 
     MaterialTextfield.prototype.destroy = function (value) {
       this.$textfield_.removeClass(this.Classes_.IS_DIRTY).removeClass(this.Classes_.IS_INVALID)
@@ -195,7 +191,6 @@
       this.$input_.unbind('reset', this.boundResetHandler);
       this.$textfield_.data(DATA_KEY, null);
     };
-    MaterialTextfield.prototype['destroy'] = MaterialTextfield.prototype.destroy;
 
     MaterialTextfield.Plugin_ = function Plugin_(config) {
       return this.each(function () {
