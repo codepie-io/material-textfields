@@ -2,5 +2,4 @@
 .idea/
 mix-manifest.json
 mix.js
-package.json
 webpack.mix.js
